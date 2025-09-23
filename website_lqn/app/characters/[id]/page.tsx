@@ -196,7 +196,6 @@ export default function CharacterPage({
         </p>
       </div>
 
-      {/* Listas */}
       <div
         style={{
           display: "grid",

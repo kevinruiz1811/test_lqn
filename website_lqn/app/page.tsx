@@ -19,6 +19,8 @@ import Image from "next/image";
 interface Person {
   name: string;
   url: string;
+  height: string;
+  mass: string;
 }
 
 export default function Home() {
@@ -123,9 +125,8 @@ export default function Home() {
         </form>
       </div>
 
-      {/* Lista estilizada */}
       <List sx={{ bgcolor: "#1a1a1a", borderRadius: 2 }}>
-        {people.map((person: any, index) => (
+        {people.map((person: Person, index) => (
           <div key={person.url}>
             <ListItem
               secondaryAction={
