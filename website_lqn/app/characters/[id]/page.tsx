@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 
 export default function CharacterPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -78,65 +78,158 @@ export default function CharacterPage({ params }: { params: { id: string } }) {
     fetchCharacter();
   }, [id]);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading)
+    return (
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 9999,
+        }}
+      >
+        <CircularProgress size={80} thickness={4} />
+      </Box>
+    );
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>{character.name}</h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#000",
+        color: "#fff",
+        padding: "40px 20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <img
+        src="/images/logoLeft.jpeg"
+        alt="Decoración izquierda"
+        style={{ position: "absolute", top: 20, left: 20, width: 400 }}
+      />
+
+      <h1 style={{ fontSize: "2.5rem", marginBottom: 20, textAlign: "center" }}>
+        {character.name}
+      </h1>
 
       <img
         src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
         alt={character.name}
-        style={{ width: 250, borderRadius: 10, marginBottom: 20 }}
+        style={{
+          width: 250,
+          borderRadius: "12px",
+          marginBottom: 30,
+          boxShadow: "0 0 20px rgba(255,255,255,0.4)",
+        }}
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).src =
             "https://starwars-visualguide.com/assets/img/big-placeholder.jpg";
         }}
       />
 
-      <p>Altura: {character.height}</p>
-      <p>Peso: {character.mass}</p>
-      <p>Color de cabello: {character.hair_color}</p>
-      <p>Color de piel: {character.skin_color}</p>
-      <p>Color de ojos: {character.eye_color}</p>
-      <p>Año de nacimiento: {character.birth_year}</p>
-      <p>Género: {character.gender}</p>
+      <div
+        style={{
+          backgroundColor: "#111",
+          borderRadius: "12px",
+          padding: "20px",
+          width: "100%",
+          maxWidth: 600,
+          boxShadow: "0 0 15px rgba(255,255,255,0.1)",
+          marginBottom: 30,
+        }}
+      >
+        <p>
+          <strong>Altura:</strong> {character.height} cm
+        </p>
+        <p>
+          <strong>Peso:</strong> {character.mass} kg
+        </p>
+        <p>
+          <strong>Cabello:</strong> {character.hair_color}
+        </p>
+        <p>
+          <strong>Piel:</strong> {character.skin_color}
+        </p>
+        <p>
+          <strong>Ojos:</strong> {character.eye_color}
+        </p>
+        <p>
+          <strong>Año de nacimiento:</strong> {character.birth_year}
+        </p>
+        <p>
+          <strong>Género:</strong> {character.gender}
+        </p>
+        <p>
+          <strong>Planeta natal:</strong> {homeworld}
+        </p>
+      </div>
 
-      <h3>Planeta natal</h3>
-      <p>{homeworld}</p>
+      {/* Listas */}
+      <div
+        style={{
+          display: "grid",
+          gap: "20px",
+          width: "100%",
+          maxWidth: 600,
+        }}
+      >
+        <div
+          style={{ background: "#111", borderRadius: "12px", padding: "15px" }}
+        >
+          <h3>Películas</h3>
+          <ul>
+            {films.map((film, index) => (
+              <li key={index}>{film}</li>
+            ))}
+          </ul>
+        </div>
 
-      <h3>Películas</h3>
-      <ul>
-        {films.map((film, index) => (
-          <li key={index}>{film}</li>
-        ))}
-      </ul>
+        <div
+          style={{ background: "#111", borderRadius: "12px", padding: "15px" }}
+        >
+          <h3>Especies</h3>
+          <ul>
+            {species.map((s, index) => (
+              <li key={index}>{s}</li>
+            ))}
+          </ul>
+        </div>
 
-      <h3>Especies</h3>
-      <ul>
-        {species.map((s, index) => (
-          <li key={index}>{s}</li>
-        ))}
-      </ul>
+        <div
+          style={{ background: "#111", borderRadius: "12px", padding: "15px" }}
+        >
+          <h3>Vehículos</h3>
+          <ul>
+            {vehicles.map((v, index) => (
+              <li key={index}>{v}</li>
+            ))}
+          </ul>
+        </div>
 
-      <h3>Vehículos</h3>
-      <ul>
-        {vehicles.map((v, index) => (
-          <li key={index}>{v}</li>
-        ))}
-      </ul>
-
-      <h3>Naves estelares</h3>
-      <ul>
-        {starships.map((s, index) => (
-          <li key={index}>{s}</li>
-        ))}
-      </ul>
+        <div
+          style={{ background: "#111", borderRadius: "12px", padding: "15px" }}
+        >
+          <h3>Naves estelares</h3>
+          <ul>
+            {starships.map((s, index) => (
+              <li key={index}>{s}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
       <Button
         variant="contained"
         color="primary"
-        style={{ marginTop: 20 }}
+        style={{ position: "absolute", top: 20, right: 20, width: 300 }}
         onClick={() => router.push("/")}
       >
         Volver
