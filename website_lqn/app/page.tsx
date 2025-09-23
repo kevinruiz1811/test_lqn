@@ -5,8 +5,6 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  CardContent,
   CircularProgress,
   Divider,
   List,
@@ -14,12 +12,17 @@ import {
   ListItemAvatar,
   ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+interface Person {
+  name: string;
+  url: string;
+}
 
 export default function Home() {
-  const [people, setPeople] = useState<any[]>([]);
+  const [people, setPeople] = useState<Person[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -80,16 +83,20 @@ export default function Home() {
         padding: "40px 20px",
       }}
     >
-      <img
+      <Image
         src="/images/logoLeft.jpeg"
         alt="Decoración izquierda"
-        style={{ position: "absolute", top: 20, left: 20, width: 400 }}
+        style={{ position: "absolute", top: 20, left: 20 }}
+        width={400}
+        height={200}
       />
 
-      <img
+      <Image
         src="/images/logoRight.jpeg"
         alt="Decoración derecha"
-        style={{ position: "absolute", top: 20, right: 20, width: 300 }}
+        style={{ position: "absolute", top: 20, right: 20 }}
+        width={300}
+        height={150}
       />
 
       <div style={{ textAlign: "center", marginBottom: 40 }}>

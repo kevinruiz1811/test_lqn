@@ -1,12 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Button, CircularProgress } from "@mui/material";
+import Image from "next/image";
 
-export default function CharacterPage({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const [character, setCharacter] = useState<any>(null);
+interface Character {
+  name: string;
+  height: string;
+  mass: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+  homeworld: string;
+  films: string[];
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+}
+
+export default function CharacterPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -110,25 +131,28 @@ export default function CharacterPage({ params }: { params: { id: string } }) {
         alignItems: "center",
       }}
     >
-      <img
+      <Image
         src="/images/logoLeft.jpeg"
         alt="Decoración izquierda"
-        style={{ position: "absolute", top: 20, left: 20, width: 400 }}
+        style={{ position: "absolute", top: 20, left: 20 }}
+        width={400}
+        height={200}
       />
 
       <h1 style={{ fontSize: "2.5rem", marginBottom: 20, textAlign: "center" }}>
-        {character.name}
+        {character?.name}
       </h1>
 
-      <img
+      <Image
         src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-        alt={character.name}
+        alt="Perfil del personaje"
         style={{
-          width: 250,
           borderRadius: "12px",
           marginBottom: 30,
           boxShadow: "0 0 20px rgba(255,255,255,0.4)",
         }}
+        width={250}
+        height={350}
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).src =
             "https://starwars-visualguide.com/assets/img/big-placeholder.jpg";
@@ -147,25 +171,25 @@ export default function CharacterPage({ params }: { params: { id: string } }) {
         }}
       >
         <p>
-          <strong>Altura:</strong> {character.height} cm
+          <strong>Altura:</strong> {character?.height} cm
         </p>
         <p>
-          <strong>Peso:</strong> {character.mass} kg
+          <strong>Peso:</strong> {character?.mass} kg
         </p>
         <p>
-          <strong>Cabello:</strong> {character.hair_color}
+          <strong>Cabello:</strong> {character?.hair_color}
         </p>
         <p>
-          <strong>Piel:</strong> {character.skin_color}
+          <strong>Piel:</strong> {character?.skin_color}
         </p>
         <p>
-          <strong>Ojos:</strong> {character.eye_color}
+          <strong>Ojos:</strong> {character?.eye_color}
         </p>
         <p>
-          <strong>Año de nacimiento:</strong> {character.birth_year}
+          <strong>Año de nacimiento:</strong> {character?.birth_year}
         </p>
         <p>
-          <strong>Género:</strong> {character.gender}
+          <strong>Género:</strong> {character?.gender}
         </p>
         <p>
           <strong>Planeta natal:</strong> {homeworld}
